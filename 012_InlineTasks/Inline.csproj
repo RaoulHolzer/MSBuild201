@@ -1,0 +1,14 @@
+<Project DefaultTargets="TestBuild"  
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="Hello" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >  
+    <ParameterGroup />  
+    <Task>  
+        <Code Type="Fragment" Language="cs">  
+        Log.LogMessage("Hello, Vienna!", MessageImportance.High);  
+        </Code>  
+    </Task>  
+    </UsingTask>  
+    <Target Name="TestBuild">  
+        <Hello />  
+    </Target>
+</Project>

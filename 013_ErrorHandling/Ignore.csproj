@@ -1,0 +1,10 @@
+<Project DefaultTargets="FakeBuild"  
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">    
+    <Target Name="Clean">  
+        <Error  ContinueOnError="WarnAndContinue" />  
+    </Target>  
+
+    <Target Name="FakeBuild" DependsOnTargets="Clean">  
+        <Message Text="Building after cleaning..."/>  
+    </Target>  
+</Project>  

@@ -1,0 +1,14 @@
+<Project DefaultTargets="Start"  
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">    
+    <Target Name="Clean">  
+        <Error  /> 
+        <OnError ExecuteTargets="ErrorHandler" />
+    </Target>  
+
+    <Target Name="Start" DependsOnTargets="Clean">  
+        <Message Text="Building after cleaning..."/>  
+    </Target>
+    <Target Name="ErrorHandler">  
+        <Message Text="ErrorHandler.."/>  
+    </Target>    
+</Project>  
