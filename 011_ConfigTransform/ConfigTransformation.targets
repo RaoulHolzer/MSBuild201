@@ -1,0 +1,88 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+
+ <PropertyGroup>
+    <BuildDependsOn>
+      TransformConfig;
+      $(BuildDependsOn)
+    </BuildDependsOn>
+    <RebuildDependsOn>
+      $(RebuildDependsOn)
+    </RebuildDependsOn>
+  </PropertyGroup>
+
+
+
+  <Target Name="TransformConfig"  >
+    <CallTarget Targets="WebConfig" />
+    <CallTarget Targets="AppConfig" />
+    <CallTarget Targets="Log4NetConfig" />
+  </Target>
+
+  <Target Name="AppConfig" Condition="Exists('app.config.template')">
+    <PropertyGroup>
+      <ConfigComputerName Condition="'$(ConfigComputerName)'==''">$(COMPUTERNAME)</ConfigComputerName>
+      <SourceConfig>app.config.template</SourceConfig>
+      <DestinationConfig>app.config</DestinationConfig>
+      <TransformConfig>$(MSBuildThisFileDirectory)\..\DevelopmentConfigTransformations\app.$(COMPUTERNAME).config</TransformConfig>
+      <TransformConfig Condition="!Exists('$(TransformConfig)')">app.config.template</TransformConfig>
+      <ProjectTransformConfig>project.app.config</ProjectTransformConfig>
+    </PropertyGroup>
+    <ItemGroup>
+      <AppEnvironmentConfigs Include="$(MSBuildThisFileDirectory)\..\SharedResources\app.*.config" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(AppEnvironmentConfigs)" DestinationFolder="." />
+
+    <TransformXml Source="$(SourceConfig)" Destination="$(DestinationConfig)" Transform="app.E.config" Condition="Exists('app.E.config')"/>
+    <TransformXml Source="$(DestinationConfig)" Destination="$(DestinationConfig)" Transform="$(ProjectTransformConfig)" Condition="Exists('$(ProjectTransformConfig)')"/>
+    <TransformXml Source="$(DestinationConfig)" Destination="$(DestinationConfig)" Transform="$(TransformConfig)" Condition="Exists('$(SourceConfig)')"/>
+
+
+  </Target>
+
+  <Target Name="WebConfig" Condition="Exists('web.config.template')">
+    <PropertyGroup>
+      <ConfigComputerName Condition="'$(ConfigComputerName)'==''">$(COMPUTERNAME)</ConfigComputerName>
+      <SourceConfig>web.config.template</SourceConfig>
+      <DestinationConfig>web.config</DestinationConfig>
+      <TransformConfig>$(MSBuildThisFileDirectory)\..\DevelopmentConfigTransformations\web.$(COMPUTERNAME).config</TransformConfig>
+      <TransformConfig Condition="!Exists('$(TransformConfig)')">web.config.template</TransformConfig>
+      <ProjectTransformConfig>project.web.config</ProjectTransformConfig>
+      
+    </PropertyGroup>
+    <ItemGroup>
+      <WebEnvironmentConfigs Include="$(MSBuildThisFileDirectory)\..\SharedResources\web.*.config" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(WebEnvironmentConfigs)" DestinationFolder="." />
+
+    <TransformXml Source="$(SourceConfig)" Destination="$(DestinationConfig)" Transform="web.E.config" Condition="Exists('web.E.config')"/>
+    <TransformXml Source="$(DestinationConfig)" Destination="$(DestinationConfig)" Transform="$(ProjectTransformConfig)" Condition="Exists('$(ProjectTransformConfig)')"/>
+    <TransformXml Source="$(DestinationConfig)" Destination="$(DestinationConfig)" Transform="$(TransformConfig)" Condition="Exists('$(SourceConfig)')"/>
+
+  </Target>
+  
+  <Target Name="Log4NetConfig">
+    <PropertyGroup>
+      <ConfigComputerName Condition="'$(ConfigComputerName)'==''">$(COMPUTERNAME)</ConfigComputerName>
+      <SourceConfig>$(MSBuildThisFileDirectory)\..\SharedResources\log4net.config.template</SourceConfig>
+      <DestinationConfig>log4net.config</DestinationConfig>
+      <TransformConfig>$(MSBuildThisFileDirectory)\..\DevelopmentConfigTransformations\log4net.$(COMPUTERNAME).config</TransformConfig>
+      <TransformConfig Condition="!Exists('$(TransformConfig)')">$(SourceConfig)</TransformConfig>
+      <ProjectTransformConfig>project.log4net.config</ProjectTransformConfig>
+    </PropertyGroup>
+    <ItemGroup>
+      <Log4NetEnvironmentConfigs Include="$(MSBuildThisFileDirectory)\..\SharedResources\log4net.*.config" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(Log4NetEnvironmentConfigs)" DestinationFolder="." />
+
+    <TransformXml Source="$(SourceConfig)" Destination="$(DestinationConfig)" Transform="log4net.E.config" Condition="Exists('log4net.E.config')"/>
+    <TransformXml Source="$(DestinationConfig)" Destination="$(DestinationConfig)" Transform="$(ProjectTransformConfig)" Condition="Exists('$(ProjectTransformConfig)')"/>
+    <TransformXml Source="$(DestinationConfig)" Destination="$(DestinationConfig)" Transform="$(TransformConfig)" Condition="Exists('$(SourceConfig)')"/>
+  </Target>
+  <!-- zusätzlich im BeforBuild TransformXml aufrufen! -->
+  <!-- app.config Transformation Ende -->
+</Project>

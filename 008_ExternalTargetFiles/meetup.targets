@@ -1,0 +1,9 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">   
+    <Target Name="First" >  
+        <Message Text="First occurrence" />  
+    </Target>  
+
+    <Target Name="Second" >  
+        <Message Text="Second occurrence" />  
+    </Target>
+</Project>  

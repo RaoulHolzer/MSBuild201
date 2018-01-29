@@ -1,0 +1,7 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Default="MyTarget"> 
+    <UsingTask TaskName="MeetUpTasks.OwnTask"   
+        AssemblyFile=".\Solution\OwnTasks\OwnTask\bin\Debug\OwnTask.dll"/> 
+   <Target Name="MyTarget">  
+      <OwnTask MyProperty="Raoul"/>  
+   </Target>  
+</Project>  

@@ -1,0 +1,3 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Default="Second">
+    <Import Project="meetup.targets"/>    
+</Project>  
