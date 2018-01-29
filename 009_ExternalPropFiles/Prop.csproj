@@ -1,5 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"  Default="First">
-    <Import Project="meetup.proj"/>
+    <Import Project="meetup.props"/>
     <Target Name="First">
         <Message Text="Hello $(First)!" />
         <Message Text="Hello $(Second)!" />
